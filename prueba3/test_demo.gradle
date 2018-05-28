@@ -1,0 +1,7 @@
+
+task tarea2 << {
+  print 'ejecutando el perfil de pruebas'
+}
+task test2 << {
+  print 'esta tarea de del perfil de pruebas'
+}

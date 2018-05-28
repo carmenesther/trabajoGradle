@@ -1,0 +1,12 @@
+
+task tarea << {
+  print 'ejecutando el perfil de desarrollo'
+}
+
+task desarrollo << {
+  print 'esta tarea de del perfil de desarrollo'
+}
+
+task refactorizar << {
+  print 'esta es otra tarea del perfil de desarrollo'
+}

@@ -1,0 +1,77 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+//añadir perfiles
+apply from: "dev_demo.gradle"
+apply from: "test_demo.gradle"
+
+dependencies {
+    compile ('org.springframework:spring-webmvc:3.2.5.RELEASE')
+}
+
+
+sourceCompatibility = 1.5
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart',
+                   'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
+
+//Desarrollar un plugin basico
+apply plugin: DemoPlugin
+
+class DemoPlugin implements Plugin<Project>{
+    void apply(Project proyecto) {
+      proyecto.task('saludar') << {
+        println "Hola plugin"
+      }
+    }
+}
+
+
+//Modificar un plugin 
+
+apply plugin: DemoPlugin2
+
+//saludo.mensaje = "Hola proyecto"
+
+class DemoPlugin2 implements Plugin<Project>{
+    void apply(Project proyecto) {
+        
+        proyecto.extensions.create("saludo", DemoExt)
+        
+        proyecto.task('saludar2') << {
+            println proyecto.saludo.mensaje
+        }
+    }
+}
+//resultado por defecto al comentar el metodo saludo
+class DemoExt{
+    def String mensaje = "Hola Extensiones"
+} 
+
+
+
